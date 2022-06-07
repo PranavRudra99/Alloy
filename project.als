@@ -33,7 +33,7 @@ fun doctorLookup(d: Doctor) : set Doctor {
 }
 
 fun patientLookup(p: Patient, t: Test) : set Test {
-	t.*(p.tests)
+	(p.tests)
 }
 
 fun labExpertLookup(l: LabExpert) : set LabExpert {
@@ -47,11 +47,11 @@ pred show{
 	all p1: Patient | all p2:(Patient - p1) | no p1.tests & p2.tests
 }
 
-//run doctorLookup for 10 Users, 5 Test, 1 Doctor
+//run doctorLookup for 10 Users, 10 Test, 1 Doctor
 
-//run patientLookup for 10 Users, 1 Patient, 1 Test
+//run patientLookup for 10 Users, 3 Patient, 6 Test
 
-//run labExpertLookup for 10 Users, 5 Test, 1 LabExpert
+//run labExpertLookup for 10 Users, 5 Patient, 5 Test, 1 LabExpert
 
-run show for exactly 10 Users, exactly 5 Test
+run show for exactly 10 Users, exactly 5 Patient, exactly 10 Test
 
