@@ -35,7 +35,7 @@ fact sysAdminAccess{
 }
 
 fact singlePatientForTest{
-	all t: Test | one p: Patient | t in p.tests
+	all t: Test | one p: Patient | t in patientLookup[p]
 }
 -----------------------------------------------
 assert oneDoctorPerTest{
@@ -54,7 +54,7 @@ fun doctorLookup(d: Doctor) : set Doctor {
 	d.(*doctor)
 }
 
-fun patientLookup(p: Patient, t: Test) : set Test {
+fun patientLookup[p: Patient] : set Test {
 	(p.tests)
 }
 
@@ -71,15 +71,25 @@ pred testsPerPatient{
 	all p: Patient | #(p.tests) > 0
 }
 -----------------------------------------------
+/*
+-The minimum number of users should be 4 as there are 4 types of users with atleast one user of each type.
+-The number of tests should be atleast equal to the number of patients.
+*/
+-----------------------------------------------
+
+//check someTestPerDoctor
+
+//run testsPerPatient for 5
+//run testsPerPatient for 6
+//run testsPerPatient for 7
+//run testsPerPatient for 8
+//run testsPerPatient for 9
+//run testsPerPatient for 10
+
 //run doctorLookup for 10 Users, 10 Test, 1 Doctor
 
 //run patientLookup for 10 Users, 3 Patient, 6 Test
 
 //run labExpertLookup for 10 Users, 5 Patient, 5 Test, 1 LabExpert
 
-//check someTestPerDoctor
-
-run testsPerPatient for 10
-
 run show for exactly 10 Users, exactly 5 Patient, exactly 10 Test
-
