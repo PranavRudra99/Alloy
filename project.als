@@ -39,27 +39,27 @@ fact singlePatientForTest{
 }
 -----------------------------------------------
 assert oneDoctorPerTest{
-	all t: Test | one d: Doctor | t.doctor = d
+	all t: Test | one d: Doctor | doctorLookup[t] = d
 }
 
 assert oneLabExpertPerTest{
-	all t: Test | one l: LabExpert | t.labExpert = l
+	all t: Test | one l: LabExpert | labExpertLookup[t] = l
 }
 
 assert someTestPerDoctor{
-	all d: Doctor | some t: Test | t.doctor = d
+	all d: Doctor | some t: Test | doctorLookup[t] = d
 }
 -----------------------------------------------
-fun doctorLookup(d: Doctor) : set Doctor {
-	d.(*doctor)
+fun doctorLookup[t: Test] : Doctor {
+	(t.doctor)
 }
 
 fun patientLookup[p: Patient] : set Test {
 	(p.tests)
 }
 
-fun labExpertLookup(l: LabExpert) : set LabExpert {
-	l.(*labExpert)
+fun labExpertLookup[t: Test] : LabExpert {
+	(t.labExpert)
 }
 -----------------------------------------------
 pred show{
@@ -77,6 +77,8 @@ pred testsPerPatient{
 */
 -----------------------------------------------
 
+//check oneDoctorPerTest
+//check oneLabExpertPerTest
 //check someTestPerDoctor
 
 //run testsPerPatient for 5
