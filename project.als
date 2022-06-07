@@ -5,17 +5,19 @@ one sig LIM {
 some abstract sig Users {}
 
 some sig Doctor extends Users {}
+
 some sig Patient extends Users {
-	tests: Patient -> set Test
+	 tests: set Test
 }
+
 some sig LabExpert extends Users {}
 
 one sig SystemAdministrator extends Users {
 	data: SystemAdministrator -> (Users - SystemAdministrator)
 }
 
-some sig Test{
-	doctor: one Doctor,
+sig Test{
+	doctor:  one Doctor,
 	labExpert: one LabExpert
 }
 
@@ -26,10 +28,12 @@ fact user {
 			LIM -> SystemAdministrator
 }
 
-pred show(){
+pred show{
 	one s: SystemAdministrator | all u: (Users - SystemAdministrator) | u in s.(s.data)
-	all p: Patient | some t: Test | t in p.(p.tests)
-	all p1: Patient |all p2:(Patient - p1) | no p1.(p1.tests) & p2.(p2.tests)
+	all p: Patient | some t: Test | t in p.tests
+	all t: Test | one p: Patient | t in p.tests
+	all p1: Patient | all p2:(Patient - p1) | no p1.tests & p2.tests
 }
 
-run show for exactly 10 Users, 5 Test
+run show for exactly 10 Users, exactly 5 Test
+
