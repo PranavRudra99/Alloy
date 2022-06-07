@@ -28,12 +28,30 @@ fact user {
 			LIM -> SystemAdministrator
 }
 
+fun doctorLookup(d: Doctor) : set Doctor {
+	d.(*doctor)
+}
+
+fun patientLookup(p: Patient, t: Test) : set Test {
+	t.*(p.tests)
+}
+
+fun labExpertLookup(l: LabExpert) : set LabExpert {
+	l.(*labExpert)
+}
+
 pred show{
 	one s: SystemAdministrator | all u: (Users - SystemAdministrator) | u in s.(s.data)
 	all p: Patient | some t: Test | t in p.tests
 	all t: Test | one p: Patient | t in p.tests
 	all p1: Patient | all p2:(Patient - p1) | no p1.tests & p2.tests
 }
+
+//run doctorLookup for 10 Users, 5 Test, 1 Doctor
+
+//run patientLookup for 10 Users, 1 Patient, 1 Test
+
+//run labExpertLookup for 10 Users, 5 Test, 1 LabExpert
 
 run show for exactly 10 Users, exactly 5 Test
 
